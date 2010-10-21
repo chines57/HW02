@@ -99,7 +99,8 @@ Determine whether the following relation is in BCNF and, if not, decompose it.
 
 Answer:
 Since each treatment has a fixed charge regardless of the patient, Rx is not in BCNF. Treatment-> Charge so the BCNF of relations would be:
-    Rx(Doctor#, Patient#, Date, Diagnosis, Treatment_code) where Doctor#, Patient#, and Date are keys, and Treatment_code must exist in Treatment    Treatment(Treatment_code, Charge), where Treatment_code is the key
+    Rx(Doctor#, Patient#, Date, Diagnosis, Treatment_code) where Doctor#, Patient#, Date and Treatment_code(FK) form the key
+    Treatment(Treatment_code, Charge), where Treatment_code is the key
 
 Also, you would probably need additional tables for Doctor, Patient, so that when you delete a record about a patient visit you don't loose all records of your patients, and a table with treatments (which would include treatment code and charges/treatment) so you can ensure consistency in documenting/coding treatments between doctors (also I believe there are regulations requiring doctors to code all treatments and diagnosis per a standard coded list.
 
