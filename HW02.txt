@@ -53,7 +53,32 @@ but that would be the original table.
 
 So the cases where this would not be the case would be:
 a) if you did a theta join where you filtered out some of of the records.
-b) if c was actually part of the key so there was duplication (aka BCNF violations) in table R.
+b) if c was actually part of the key so there was duplication (aka BCNF violations) in table R. So that R looked like this:
+a1 b1 c1
+a2 b2 c2
+a3 b3 c3
+a3 b3 c4 
+
+S would be this:
+a1 b1
+a2 b2
+a3 b3
+a3 b3 
+
+and T would be this;
+b1 c1
+b2 c2
+b3 c3
+b3 c4 
+
+Resulting in this R'
+a1 b1 c1
+a2 b2 c2
+a3 b3 c3
+a3 b3 c3 
+a3 b3 c4 
+a3 b3 c4 
+
 
 ***********************
 Problem #1 from website
@@ -70,7 +95,7 @@ Item(Item#, Price_each) where Item# is the key
 Problem #2 from website
 ***********************
 
-Determine whether the following relation is in BCNF and, if not, decompose it.    Rx(Doctor#, Patient#, Date, Diagnosis, Treatment_code, Charge) where Doctor# and Patient# are keysA tuple describes a visit of a patient to a doctor along with a treatment code and a charge. Assume that each treatment code has a fixed charge (regardless of patient). 
+Determine whether the following relation is in BCNF and, if not, decompose it.    Rx(Doctor#, Patient#, Date, Diagnosis, Treatment_code, Charge) where Doctor#, Patient#, and Date are keysA tuple describes a visit of a patient to a doctor along with a treatment code and a charge. Assume that each treatment code has a fixed charge (regardless of patient). 
 
 Answer:
 Rx is in BCNF.  However, you would probably need additional tables for Doctor, Patient, so that when you delete a record about a patient visit you don't loose all records of your patients, and a table with treatments (which would include treatment code and charges/treatment) so you can ensure consistency in documenting/coding treatments between doctors (also I believe there are regulations requiring doctors to code all treatments and diagnosis per a standard coded list.
