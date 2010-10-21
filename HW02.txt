@@ -1,0 +1,77 @@
+HW 02
+2010 October 21
+Christine Hines
+
+*******************************
+Exercise 3.3.1, part f, pg. 93.
+*******************************
+For each of the following relation schemas and sets of FD's:f) F(A, B, C, D) with FD's AB -> C, C -> D, D -> B, and D -> E.Indicate all the BCNF violations. Do not forget to consider FD's that are not in the given set, but follow from them.  However, it is not necessary to give violations that have more than one attribute on the right side.Decompose the relations as necessary, into collections of relations that are in BCNF.
+
+Given FDs: AB -> C, C -> D, D -> B, D -> E
+Derived FDs:
+C -> B, C -> E, CD -> E
+AB -> D 
+AB -> B, A -> B, C -> B, DA -> B, CA -> B
+AB -> E
+
+Keys:
+AB
+AC
+AD
+
+i) BCNF Violations:
+CA -> B
+DA -> B
+ACD -> B
+ABC -> D
+CD -> E
+ABCD -> E
+ii) R1(A), R2(A,B), R3(A,C), R4(A,D), R5(D,E)
+NOTE: I think I could have created other tables that would have been valid instead of R5(D,E) such as R5(C,E).
+
+***********************
+Exercise 3.3.4, pg. 93.
+***********************
+
+Suppose we have a relation schema R(A, B, C) with FD A -> B.  Suppose also that we decide to decompose this schema into S(A, B) and T(B, C).  Give an example of an instance of relation R whose projection onto S and T and subsequent rejoining as in Section 3.4.1 does not yield the same relation instance.  That is, π (subscript A, B) (R)  “natural join”  π (subscript B, C) (R) ≠ R.
+
+S
+a1 b1
+a2 b2
+a3 b3
+
+T
+b1 c1
+b2 c2
+b3 c3
+
+So typically a natural join would result in 
+a1 b1 c1
+a2 b2 c2
+a3 b3 c3 
+but that would be the original table.
+
+So the cases where this would not be the case would be:
+a) if you did a theta join where you filtered out some of of the records.
+b) if c was actually part of the key so there was duplication (aka BCNF violations) in table R.
+
+***********************
+Problem #1 from website
+***********************
+Consider the following relations for an order-prcessing application database for Acme Products, Wile E. Coyote, owner. Determine whether the relations are in BCNF and, if not, decompose them.    Order(Order#, Order_date, Customer#, Total_amount) where Order# is the key    Order_Item(Order#, Item#, Quantity_ordered, Price_each, Total_price, Discount%) where Order# is a FK and Order# and Item# are the key for Order_ItemAssume that each item has a different discount. The Price_each refers to one item, Total_price is the cost per item multiplied by the number of items purchased, Order_date is the date on which the order was placed, and the Total_amount is the amount of the order.
+
+Answer:
+Customer(Customer#, CustomerName) where Customer# is the key
+Order(Order#, Order_date, Customer#, Total_amount) where Order# is the key, Customer# must exist in Customer
+Order_Item(Order#, Item#, Quantity_ordered, Total_price, Discount%) where Order# is a FK, Item# is a FK, and Order# and Item# are the key for Order_Item
+Item(Item#, Price_each) where Item# is the key
+
+***********************
+Problem #2 from website
+***********************
+
+Determine whether the following relation is in BCNF and, if not, decompose it.    Rx(Doctor#, Patient#, Date, Diagnosis, Treatment_code, Charge) where Doctor# and Patient# are keysA tuple describes a visit of a patient to a doctor along with a treatment code and a charge. Assume that each treatment code has a fixed charge (regardless of patient). 
+
+Answer:
+Rx is in BCNF.  However, you would probably need additional tables for Doctor, Patient, so that when you delete a record about a patient visit you don't loose all records of your patients, and a table with treatments (which would include treatment code and charges/treatment) so you can ensure consistency in documenting/coding treatments between doctors (also I believe there are regulations requiring doctors to code all treatments and diagnosis per a standard coded list.
+
